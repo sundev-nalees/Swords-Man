@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsJumping", false);
             animator.SetBool("IsFalling", true);
         }
-
+        
     }
     private void FixedUpdate()
     {
