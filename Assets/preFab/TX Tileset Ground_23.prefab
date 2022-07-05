@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6268069500926564915}
   - component: {fileID: 6268069500926564914}
   - component: {fileID: 6268069500926564909}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TX Tileset Ground_23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
