@@ -13,9 +13,16 @@ public class enemyPetrolAi : MonoBehaviour
     public Transform GroundCheckPos;
     public LayerMask GroundLayer;
     public Collider2D BodyCollider;
+
+    public Animator animator;
+    public GameObject smallEnemy;
+
+    public int MaxHealth = 100;
+    int CurrentHealth;
     void Start()
     {
-        MustPatrol = true;  
+        MustPatrol = true;
+        CurrentHealth = MaxHealth;
     }
 
     
@@ -52,5 +59,27 @@ public class enemyPetrolAi : MonoBehaviour
         transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         WalkSpeed *= -1;
         MustPatrol = true; 
+    }
+
+
+    public void TakeDamage(int damage)
+    {
+        CurrentHealth -= damage;
+        animator.SetTrigger("Hurt");
+        if (CurrentHealth < 0)
+        {
+            Die();
+        }
+
+    }
+
+    void Die()
+    {
+        animator.SetBool("IsDead", true);
+
+        this.enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+        //smallEnemy.SetActive(false);
     }
 }
