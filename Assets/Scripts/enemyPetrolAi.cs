@@ -13,6 +13,9 @@ public class enemyPetrolAi : MonoBehaviour
     public Transform GroundCheckPos;
     public LayerMask GroundLayer;
     public Collider2D BodyCollider;
+    public Collider2D 
+    //public Component GroundCollider;
+    //public Component 
 
     public Animator animator;
     public GameObject smallEnemy;
@@ -78,8 +81,9 @@ public class enemyPetrolAi : MonoBehaviour
         animator.SetBool("IsDead", true);
 
         this.enabled = false;
-        GetComponent<Collider2D>().enabled = false;
-        GetComponent<Collider2D>().enabled = false;
+        // GetComponent<Collider2D>().enabled = false;
+        BodyCollider.SetActive(false);
+        GroundCollider.SetActive(false);
         //smallEnemy.SetActive(false);
     }
 }
