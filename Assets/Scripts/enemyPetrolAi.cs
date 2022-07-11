@@ -13,7 +13,7 @@ public class enemyPetrolAi : MonoBehaviour
     public Transform GroundCheckPos;
     public LayerMask GroundLayer;
     public Collider2D BodyCollider;
-    
+    public Collider2D GroundCollider;
     //public Component GroundCollider;
     //public Component 
 
@@ -80,10 +80,13 @@ public class enemyPetrolAi : MonoBehaviour
     {
         animator.SetBool("IsDead", true);
 
+
         this.enabled = false;
-        // GetComponent<Collider2D>().enabled = false;
-       // BodyCollider.SetActive(false);
-        //GroundCollider.SetActive(false);
+        BodyCollider.enabled = false;
+        GroundCollider.enabled = false;
+        
         //smallEnemy.SetActive(false);
+
+       // WalkSpeed = 0;
     }
 }
