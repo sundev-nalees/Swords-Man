@@ -7,18 +7,25 @@ public class PlayerAttack : MonoBehaviour
     public Animator animator;
     public Transform AttackPoint;
     public LayerMask EnemyLayers;
-
-
+    public Collider2D PlayerCollider;
     public float AttackRange = 0.5f;
     public int AttackDamage = 20;
-    
-    
+
+    public int MaxHealth = 100;
+    int CurrentHealth;
+
+    private void Start()
+    {
+        CurrentHealth = MaxHealth;
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
             Attack();
-        }   
+        }
+
+        
     }
 
     void Attack()
@@ -42,7 +49,21 @@ public class PlayerAttack : MonoBehaviour
         Gizmos.DrawWireSphere(AttackPoint.position, AttackRange);
 
     }
-    
-        
-    
+
+
+    public void TakeDamage(int damage)
+    {
+        CurrentHealth -= damage;
+        animator.SetTrigger("Hurt");
+        if (CurrentHealth < 0)
+        {
+            Die();
+        }
+
+    }
+    void Die()
+    {
+        animator.SetBool("IsDead", true);
+        //PlayerCollider.enabled = false;
+    }
 }

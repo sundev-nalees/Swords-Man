@@ -12,13 +12,18 @@ public class enemyPetrolAi : MonoBehaviour
     public Rigidbody2D rb;
     public Transform GroundCheckPos;
     public LayerMask GroundLayer;
+    public LayerMask PlayerLayer;
     public Collider2D BodyCollider;
     public Collider2D GroundCollider;
-    //public Component GroundCollider;
-    //public Component 
+    public Collider2D EnemyCollider;
+    
 
     public Animator animator;
     public GameObject smallEnemy;
+
+    public float AttackRange = 0.5f;
+    public int AttackDamage = 20;
+    public Transform AttackPoint;
 
     public float DeathDelay;
     public int MaxHealth = 100;
@@ -35,7 +40,12 @@ public class enemyPetrolAi : MonoBehaviour
         if (MustPatrol)
         {
             Patrol();
-        }    
+        }
+
+        if (EnemyCollider.IsTouchingLayers(PlayerLayer))
+        {
+            Attack();
+        }
     }
 
     private void FixedUpdate()
@@ -97,5 +107,27 @@ public class enemyPetrolAi : MonoBehaviour
         //BodyCollider.enabled = false;
         //GroundCollider.enabled = false;
         
+    }
+
+    void Attack()
+    {
+        animator.SetTrigger("Attack");
+
+        Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, PlayerLayer);
+
+        foreach (Collider2D player in hitPlayer)
+        {
+            player.GetComponent<PlayerAttack>().TakeDamage(AttackDamage);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (AttackPoint == null)
+        {
+            return;
+        }
+        Gizmos.DrawWireSphere(AttackPoint.position, AttackRange);
+
     }
 }
