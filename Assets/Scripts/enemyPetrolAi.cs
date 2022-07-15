@@ -28,6 +28,11 @@ public class enemyPetrolAi : MonoBehaviour
     public float DeathDelay;
     public int MaxHealth = 100;
     int CurrentHealth;
+
+    public AudioClip AttackSound;
+
+    float AttackDelay=1.4f;
+    float Timer=0f;
     void Start()
     {
         MustPatrol = true;
@@ -42,12 +47,30 @@ public class enemyPetrolAi : MonoBehaviour
             Patrol();
         }
 
-        if (EnemyCollider.IsTouchingLayers(PlayerLayer))
-        {
-            Attack();
-        }
+        //if (EnemyCollider.IsTouchingLayers(PlayerLayer))
+        //{
+           // Attack();
+       // }
+       
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            Attack();
+
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player"&&Timer<Time.time)
+        {
+            Attack();
+            Timer = Time.time + AttackDelay;
+        }
+        Debug.Log("hi");
+    }
     private void FixedUpdate()
     {
         if (MustPatrol)
@@ -112,7 +135,7 @@ public class enemyPetrolAi : MonoBehaviour
     void Attack()
     {
         animator.SetTrigger("Attack");
-
+        SoundManager.instance.PlaySound(AttackSound);
         Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, PlayerLayer);
 
         foreach (Collider2D player in hitPlayer)
